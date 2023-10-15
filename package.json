@@ -10,16 +10,21 @@
     "component:headless": "cypress run --component"
   },
   "dependencies": {
+    "framer-motion": "^10.16.4",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-icons": "^4.11.0"
   },
   "devDependencies": {
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
+    "autoprefixer": "^10.4.16",
     "cypress": "12.3.0",
+    "postcss": "^8.4.31",
     "start-server-and-test": "1.15.2",
+    "tailwindcss": "^3.3.3",
     "typescript": "4.7.4"
   }
 }
