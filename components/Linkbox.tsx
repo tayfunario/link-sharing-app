@@ -2,36 +2,44 @@ import { BsYoutube, BsFacebook, BsInstagram } from "react-icons/bs";
 import { AiFillGithub, AiOutlineTwitter, AiOutlineLink } from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { LinkProps } from "../pages";
 
 interface LinkboxProps {
   index: number;
+  updateUrl: (index: number, url: string) => void;
+  updatePlatform: (index: number, platform: string) => void;
 }
 
-function Linkbox({ index }: LinkboxProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function Linkbox({ index, updateUrl, updatePlatform }: LinkboxProps) {
   const [chosenPlatform, setChosenPlatform] =
     useState<string>("Choose a platform");
   const [chosenPlatformIcon, setChosenPlatformIcon] = useState(null);
 
   return (
-    <div className="bg-gray-200 mb-12 p-5 rounded-md">
+    <div className="bg-gray-100 p-5 rounded-md">
       <div className="flex justify-between">
-        <span>Link #{index}</span>
+        <span className="font-semibold">Link #{index}</span>
         <span className="underline">Remove</span>
       </div>
 
       <span className="block mt-3 text-sm capitalize text-gray-600">
         Platform
       </span>
+
       <ToggleMenu
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        index={index}
+        updatePlatform={updatePlatform}
         chosenPlatform={chosenPlatform}
         setChosenPlatform={setChosenPlatform}
         chosenPlatformIcon={chosenPlatformIcon}
         setChosenPlatformIcon={setChosenPlatformIcon}
       />
-      <Input chosenPlatform={chosenPlatform} />
+
+      <Input
+        index={index}
+        updateUrl={updateUrl}
+        chosenPlatform={chosenPlatform}
+      />
     </div>
   );
 }
@@ -67,8 +75,8 @@ const liVariants = {
 };
 
 interface ToggleMenuProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  index: number;
+  updatePlatform: (index: number, platform: string) => void;
   chosenPlatform: string;
   setChosenPlatform: (chosenPlatform: string) => void;
   chosenPlatformIcon: any;
@@ -76,18 +84,20 @@ interface ToggleMenuProps {
 }
 
 const ToggleMenu = ({
-  isOpen,
-  setIsOpen,
+  index,
+  updatePlatform,
   chosenPlatform,
   setChosenPlatform,
   chosenPlatformIcon,
   setChosenPlatformIcon,
 }: ToggleMenuProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
 
-      if (!target.closest("#ul-menu") && !target.closest(".link-btn")) {
+      if (!target.closest("#ul-menu") && !target.closest(`#link-btn${index}`)) {
         setIsOpen(false);
       }
     });
@@ -95,16 +105,25 @@ const ToggleMenu = ({
 
   useEffect(() => {
     if (isOpen) {
-      const btnWidth = document.querySelector(".link-btn")!.clientWidth;
-      const ulElement = document.querySelector("#ul-menu") as HTMLUListElement;
-      ulElement.style.width = `${btnWidth}px`;
+      const btnWidth = document.querySelector(`#link-btn${index}`)!.clientWidth;
+      const ulElements = document.querySelectorAll(
+        "#ul-menu"
+      ) as NodeListOf<HTMLUListElement>;
+      ulElements.forEach((ulElement) => {
+        ulElement.style.width = `${btnWidth}px`;
+      });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    updatePlatform(index, chosenPlatform);
+  }, [chosenPlatform]);
 
   return (
     <div>
       <motion.button
-        className="link-btn flex justify-between items-center bg-gray-100 px-5 py-2 w-full rounded-lg border-2 border-gray-400"
+        id={`link-btn${index}`}
+        className="flex text-sm justify-between items-center bg-white px-5 py-2 w-full rounded-lg border-2 border-gray-300"
         onClick={() => setIsOpen(!isOpen)}
         whileTap={{ scale: 0.98 }}
       >
@@ -128,7 +147,7 @@ const ToggleMenu = ({
         {isOpen && (
           <motion.ul
             id="ul-menu"
-            className="mt-1 absolute rounded-lg bg-green-600"
+            className="mt-1 absolute rounded-lg bg-green-600 z-10"
             variants={ulVariants}
             initial="initial"
             animate="open"
@@ -196,20 +215,33 @@ const ToggleMenu = ({
   );
 };
 
-const Input = ({ chosenPlatform }: { chosenPlatform: string }) => {
+interface InputProps {
+  index: number;
+  updateUrl: (index: number, url: string) => void;
+  chosenPlatform: string;
+}
+
+const Input = ({ index, chosenPlatform, updateUrl }: InputProps) => {
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    updateUrl(index, url);
+  }, [url]);
+
   return (
     <div className="mt-5">
       <form>
         <label htmlFor="link" className="mt-3 text-sm capitalize text-gray-600">
           Link
         </label>
-        <div className="flex items-center gap-x-2 bg-gray-11 rounded-lg px-5 py-2 bg-gray-100 border-2 border-gray-400">
+        <div className="flex items-center gap-x-2 bg-gray-11 rounded-lg px-5 py-2 bg-white border-2 border-gray-300">
           <AiOutlineLink />
           <input
             required
             type="text"
             id="link"
-            className="grow bg-transparent focus:outline-none"
+            className="grow bg-transparent text-sm focus:outline-none"
+            onChange={(e) => setUrl(e.target.value)}
             placeholder={
               chosenPlatform === "Choose a platform"
                 ? `https://www.github.com/`
@@ -222,7 +254,6 @@ const Input = ({ chosenPlatform }: { chosenPlatform: string }) => {
             }
           />
         </div>
-        <button type="submit">send</button>
       </form>
     </div>
   );

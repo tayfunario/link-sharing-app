@@ -1,7 +1,17 @@
-export const Preview = () => {
+import { LinkProps } from "../pages";
+
+interface PreviewProps {
+  links: LinkProps[];
+}
+
+export const Preview = ({ links }: PreviewProps) => {
   return (
-    <div className="basis-1/3 h-screen bg-white rounded-3xl shadow-md shadow-gray-400">
-      a
+    <div className="col-span-2 max-h-screen bg-white rounded-3xl">
+      {links.map((link) => (
+        <p key={link.id}>
+          {link.icon} {link.platform} {link.url}
+        </p>
+      ))}
     </div>
   );
 };

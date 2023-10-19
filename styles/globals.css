@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 :root {
-  --grey-1: hsl(210, 30%, 97%);
+  --grey-1: hsl(210, 30%, 92%);
   --grey-2: hsl(210, 30%, 90%);
   --grey-3: hsl(210, 40%, 80%);
   --grey-4: hsl(210, 30%, 65%);
@@ -16,5 +16,5 @@
 }
 
 #container {
-  background-color: var(--grey-2);
+  background-color: var(--grey-1);
 }
