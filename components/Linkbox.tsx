@@ -8,38 +8,38 @@ interface LinkboxProps {
   index: number;
   updateUrl: (index: number, url: string) => void;
   updatePlatform: (index: number, platform: string) => void;
+  removeLink: (index: number) => void;
+  link: LinkProps;
 }
 
-function Linkbox({ index, updateUrl, updatePlatform }: LinkboxProps) {
-  const [chosenPlatform, setChosenPlatform] =
-    useState<string>("Choose a platform");
-  const [chosenPlatformIcon, setChosenPlatformIcon] = useState(null);
-
+function Linkbox({
+  index,
+  updateUrl,
+  link,
+  updatePlatform,
+  removeLink,
+}: LinkboxProps) {
   return (
-    <div className="bg-gray-100 p-5 rounded-md">
+    <div className="linkbox bg-gray-100 p-5 border-2 rounded-md">
       <div className="flex justify-between">
-        <span className="font-semibold">Link #{index}</span>
-        <span className="underline">Remove</span>
+        <span className="font-semibold">Link #{index + 1}</span>
+        <span
+          className="underline"
+          onClick={() => {
+            removeLink(index);
+          }}
+        >
+          Remove
+        </span>
       </div>
 
       <span className="block mt-3 text-sm capitalize text-gray-600">
         Platform
       </span>
 
-      <ToggleMenu
-        index={index}
-        updatePlatform={updatePlatform}
-        chosenPlatform={chosenPlatform}
-        setChosenPlatform={setChosenPlatform}
-        chosenPlatformIcon={chosenPlatformIcon}
-        setChosenPlatformIcon={setChosenPlatformIcon}
-      />
+      <ToggleMenu index={index} link={link} updatePlatform={updatePlatform} />
 
-      <Input
-        index={index}
-        updateUrl={updateUrl}
-        chosenPlatform={chosenPlatform}
-      />
+      <Input index={index} link={link} updateUrl={updateUrl} />
     </div>
   );
 }
@@ -76,21 +76,11 @@ const liVariants = {
 
 interface ToggleMenuProps {
   index: number;
+  link: LinkProps;
   updatePlatform: (index: number, platform: string) => void;
-  chosenPlatform: string;
-  setChosenPlatform: (chosenPlatform: string) => void;
-  chosenPlatformIcon: any;
-  setChosenPlatformIcon: (chosenPlatformIcon: any) => void;
 }
 
-const ToggleMenu = ({
-  index,
-  updatePlatform,
-  chosenPlatform,
-  setChosenPlatform,
-  chosenPlatformIcon,
-  setChosenPlatformIcon,
-}: ToggleMenuProps) => {
+const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -115,10 +105,6 @@ const ToggleMenu = ({
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    updatePlatform(index, chosenPlatform);
-  }, [chosenPlatform]);
-
   return (
     <div>
       <motion.button
@@ -127,10 +113,7 @@ const ToggleMenu = ({
         onClick={() => setIsOpen(!isOpen)}
         whileTap={{ scale: 0.98 }}
       >
-        <div className="flex items-center gap-x-2">
-          {chosenPlatformIcon}
-          {chosenPlatform}
-        </div>
+        <div className="flex items-center gap-x-2">{link.platform}</div>
         <motion.svg
           width="15"
           height="15"
@@ -157,8 +140,7 @@ const ToggleMenu = ({
               className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
               variants={liVariants}
               onClick={(e) => {
-                setChosenPlatform("Youtube");
-                setChosenPlatformIcon(<BsYoutube className="inline" />);
+                updatePlatform(index, "Youtube");
                 setIsOpen(false);
               }}
             >
@@ -168,8 +150,7 @@ const ToggleMenu = ({
               className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
-                setChosenPlatform("Github");
-                setChosenPlatformIcon(<AiFillGithub className="inline" />);
+                updatePlatform(index, "Github");
                 setIsOpen(false);
               }}
             >
@@ -179,8 +160,7 @@ const ToggleMenu = ({
               className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
-                setChosenPlatform("Instagram");
-                setChosenPlatformIcon(<BsInstagram className="inline" />);
+                updatePlatform(index, "Instagram");
                 setIsOpen(false);
               }}
             >
@@ -190,8 +170,7 @@ const ToggleMenu = ({
               className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
-                setChosenPlatform("Facebook");
-                setChosenPlatformIcon(<BsFacebook className="inline" />);
+                updatePlatform(index, "Facebook");
                 setIsOpen(false);
               }}
             >
@@ -201,8 +180,7 @@ const ToggleMenu = ({
               className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
-                setChosenPlatform("Twitter");
-                setChosenPlatformIcon(<AiOutlineTwitter className="inline" />);
+                updatePlatform(index, "Twitter");
                 setIsOpen(false);
               }}
             >
@@ -218,16 +196,10 @@ const ToggleMenu = ({
 interface InputProps {
   index: number;
   updateUrl: (index: number, url: string) => void;
-  chosenPlatform: string;
+  link: LinkProps;
 }
 
-const Input = ({ index, chosenPlatform, updateUrl }: InputProps) => {
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    updateUrl(index, url);
-  }, [url]);
-
+const Input = ({ index, link: { url, platform }, updateUrl }: InputProps) => {
   return (
     <div className="mt-5">
       <form>
@@ -240,17 +212,13 @@ const Input = ({ index, chosenPlatform, updateUrl }: InputProps) => {
             required
             type="text"
             id="link"
+            value={url}
             className="grow bg-transparent text-sm focus:outline-none"
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => updateUrl(index, e.target.value)}
             placeholder={
-              chosenPlatform === "Choose a platform"
+              platform === "Choose a platform"
                 ? `https://www.github.com/`
-                : `https://www.${chosenPlatform.toLowerCase()}.com/`
-            }
-            pattern={
-              chosenPlatform === "Choose a platform"
-                ? `https://www.github.com/[a-zA-Z0-9]+`
-                : `https://www.${chosenPlatform.toLowerCase()}.com/[a-zA-Z0-9]+`
+                : `https://www.${platform.toLowerCase()}.com/`
             }
           />
         </div>
