@@ -1,8 +1,14 @@
 import { BsYoutube, BsFacebook, BsInstagram } from "react-icons/bs";
-import { AiFillGithub, AiOutlineTwitter, AiOutlineLink } from "react-icons/ai";
+import {
+  AiFillGithub,
+  AiOutlineTwitter,
+  AiOutlineLink,
+  AiOutlineDrag,
+} from "react-icons/ai";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { LinkProps } from "../pages";
+import { useSortable } from "@dnd-kit/sortable";
 
 interface LinkboxProps {
   index: number;
@@ -14,15 +20,39 @@ interface LinkboxProps {
 
 function Linkbox({
   index,
-  updateUrl,
   link,
+  updateUrl,
   updatePlatform,
   removeLink,
 }: LinkboxProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: link.id,
+    });
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        transition,
+      }
+    : {};
+
   return (
-    <div className="linkbox bg-gray-100 p-5 border-2 rounded-md">
+    <div
+      className="linkbox bg-gray-100 p-5 border-2 rounded-md shadow-gray-500"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+    >
       <div className="flex justify-between">
-        <span className="font-semibold">Link #{index + 1}</span>
+        <div className="flex items-center gap-x-2">
+          <AiOutlineDrag
+            className="handle w-6 h-6 text-gray-400"
+            {...listeners}
+          />
+          <span className="font-semibold">Link #{index + 1}</span>
+        </div>
+
         <span
           className="underline"
           onClick={() => {
@@ -213,8 +243,8 @@ const Input = ({ index, link: { url, platform }, updateUrl }: InputProps) => {
             type="text"
             id="link"
             value={url}
-            className="grow bg-transparent text-sm focus:outline-none"
             onChange={(e) => updateUrl(index, e.target.value)}
+            className="grow bg-transparent text-sm focus:outline-none"
             placeholder={
               platform === "Choose a platform"
                 ? `https://www.github.com/`

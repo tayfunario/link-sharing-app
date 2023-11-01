@@ -1,7 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Linkbox from "./Linkbox";
 import { LinkProps } from "../pages";
 import { motion } from "framer-motion";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import {
+  restrictToVerticalAxis,
+  restrictToParentElement,
+} from "@dnd-kit/modifiers";
 
 interface DashboardProps {
   links: LinkProps[];
@@ -11,11 +21,24 @@ interface DashboardProps {
 export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
   const [stagingLinks, setStagingLinks] = useState<LinkProps[]>(links);
 
+  const handleDragStart = (event: any) => {};
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      setStagingLinks((links) => {
+        const oldIndex = links.findIndex((l) => l.id === active.id);
+        const newIndex = links.findIndex((l) => l.id === over.id);
+        return arrayMove(links, oldIndex, newIndex);
+      });
+    }
+  };
+
   const addLink = () => {
     setStagingLinks([
       ...stagingLinks,
       {
-        id: stagingLinks.length,
+        id: stagingLinks.length + 1,
         platform: "Choose a platform",
         url: "",
         icon: null,
@@ -60,18 +83,30 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
         </motion.button>
       </div>
 
-      <div className="flex flex-col gap-y-10 px-16">
-        {stagingLinks.map((link, index) => (
-          <Linkbox
-            key={index}
-            index={index}
-            link={link}
-            updateUrl={updateUrl}
-            updatePlatform={updatePlatform}
-            removeLink={removeLink}
-          />
-        ))}
-      </div>
+      <DndContext
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      >
+        <SortableContext
+          items={stagingLinks}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="flex flex-col gap-y-10 px-16">
+            {stagingLinks.map((link, index) => (
+              <Linkbox
+                key={index}
+                index={index}
+                link={link}
+                updateUrl={updateUrl}
+                updatePlatform={updatePlatform}
+                removeLink={removeLink}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
       <div
         id="dashboard-bottom-div"
