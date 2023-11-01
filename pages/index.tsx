@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
@@ -33,7 +33,6 @@ export default function Home() {
   return (
     <div id="container" className="min-h-screen box-border font-Poppins p-5">
       <div className="grid grid-cols-5 gap-5">
-        <h3>dnd kit hoohoo</h3>
         <Header />
         <Preview links={links} />
         <Dashboard links={links} overrideLinks={overrideLinks} />
