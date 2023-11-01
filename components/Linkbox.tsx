@@ -39,7 +39,7 @@ function Linkbox({
 
   return (
     <div
-      className="linkbox bg-gray-100 p-5 border-2 rounded-md shadow-gray-500"
+      className="bg-gray-100 p-5 border-2 rounded-md shadow-gray-500"
       ref={setNodeRef}
       style={style}
       {...attributes}

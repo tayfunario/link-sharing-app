@@ -22,7 +22,3 @@
 #dashboard-bottom-div {
   box-shadow: 0px -2px 3px 0px hsl(0, 0%, 80%);
 }
-
-.handle:active .linkbox {
-  margin: 10rem;
-}
