@@ -21,8 +21,6 @@ interface DashboardProps {
 export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
   const [stagingLinks, setStagingLinks] = useState<LinkProps[]>(links);
 
-  const handleDragStart = (event: any) => {};
-
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over.id) {
@@ -84,7 +82,6 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
       </div>
 
       <DndContext
-        onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         collisionDetection={closestCenter}
         modifiers={[restrictToVerticalAxis, restrictToParentElement]}
