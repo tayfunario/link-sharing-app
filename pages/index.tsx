@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
+import { Profile } from "../components/Profile";
 
 export interface LinkProps {
   id: number;
@@ -35,7 +36,8 @@ export default function Home() {
       <div className="grid grid-cols-5 gap-5">
         <Header />
         <Preview links={links} />
-        <Dashboard links={links} overrideLinks={overrideLinks} />
+        {/* <Dashboard links={links} overrideLinks={overrideLinks} /> */}
+        <Profile />
       </div>
     </div>
   );
