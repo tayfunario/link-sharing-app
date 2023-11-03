@@ -1,4 +1,4 @@
-import { BsYoutube, BsFacebook, BsInstagram } from "react-icons/bs";
+import { BsYoutube, BsFacebook, BsInstagram, BsLinkedin } from "react-icons/bs";
 import {
   AiFillGithub,
   AiOutlineTwitter,
@@ -14,6 +14,7 @@ interface LinkboxProps {
   index: number;
   updateUrl: (index: number, url: string) => void;
   updatePlatform: (index: number, platform: string) => void;
+  updateIcon: (index: number, icon: any) => void;
   removeLink: (index: number) => void;
   link: LinkProps;
 }
@@ -23,6 +24,7 @@ function Linkbox({
   link,
   updateUrl,
   updatePlatform,
+  updateIcon,
   removeLink,
 }: LinkboxProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -67,7 +69,12 @@ function Linkbox({
         Platform
       </span>
 
-      <ToggleMenu index={index} link={link} updatePlatform={updatePlatform} />
+      <ToggleMenu
+        index={index}
+        link={link}
+        updatePlatform={updatePlatform}
+        updateIcon={updateIcon}
+      />
 
       <Input index={index} link={link} updateUrl={updateUrl} />
     </div>
@@ -108,9 +115,15 @@ interface ToggleMenuProps {
   index: number;
   link: LinkProps;
   updatePlatform: (index: number, platform: string) => void;
+  updateIcon: (index: number, icon: any) => void;
 }
 
-const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
+const ToggleMenu = ({
+  index,
+  updatePlatform,
+  updateIcon,
+  link,
+}: ToggleMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -171,6 +184,7 @@ const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
               variants={liVariants}
               onClick={(e) => {
                 updatePlatform(index, "Youtube");
+                updateIcon(index, <BsYoutube className="inline" />);
                 setIsOpen(false);
               }}
             >
@@ -181,6 +195,7 @@ const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Github");
+                updateIcon(index, <AiFillGithub className="inline" />);
                 setIsOpen(false);
               }}
             >
@@ -191,6 +206,7 @@ const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Instagram");
+                updateIcon(index, <BsInstagram className="inline" />);
                 setIsOpen(false);
               }}
             >
@@ -201,6 +217,7 @@ const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Facebook");
+                updateIcon(index, <BsFacebook className="inline" />);
                 setIsOpen(false);
               }}
             >
@@ -211,10 +228,22 @@ const ToggleMenu = ({ index, updatePlatform, link }: ToggleMenuProps) => {
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Twitter");
+                updateIcon(index, <AiOutlineTwitter className="inline" />);
                 setIsOpen(false);
               }}
             >
               <AiOutlineTwitter className="inline" /> Twitter
+            </motion.li>
+            <motion.li
+              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              variants={liVariants}
+              onClick={() => {
+                updatePlatform(index, "LinkedIn");
+                updateIcon(index, <BsLinkedin className="inline" />);
+                setIsOpen(false);
+              }}
+            >
+              <BsLinkedin className="inline" /> LinkedIn
             </motion.li>
           </motion.ul>
         )}

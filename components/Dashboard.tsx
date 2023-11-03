@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Linkbox from "./Linkbox";
 import { LinkProps } from "../pages";
 import { motion } from "framer-motion";
@@ -62,8 +62,14 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
     setStagingLinks(newLinks);
   };
 
+  const updateIcon = (index: number, icon: any) => {
+    const newLinks = [...stagingLinks];
+    newLinks[index].icon = icon;
+    setStagingLinks(newLinks);
+  };
+
   return (
-    <div className="relative pb-32 col-span-3 rounded-2xl bg-white overflow-hidden">
+    <div className="relative pb-36 col-span-3 rounded-2xl bg-white overflow-hidden">
       <div className="p-12">
         <h3 className="text-2xl mb-2 font-semibold tracking-tighter">
           Customize Your Links
@@ -98,6 +104,7 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
                 link={link}
                 updateUrl={updateUrl}
                 updatePlatform={updatePlatform}
+                updateIcon={updateIcon}
                 removeLink={removeLink}
               />
             ))}
