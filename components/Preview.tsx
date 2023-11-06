@@ -62,7 +62,7 @@ export const Preview = ({ user, links }: PreviewProps) => {
           )}
           <ul
             id="preview-items-list"
-            className="pr-1 mx-auto mt-7 w-3/4 max-h-[250px] overflow-y-auto"
+            className="pr-1 mx-auto mt-7 w-3/4 max-h-[260px] overflow-y-auto"
           >
             {links &&
               links.map((link) => <PreviewItem key={link.id} link={link} />)}
