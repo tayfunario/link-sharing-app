@@ -71,10 +71,10 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
   return (
     <div className="relative pb-36 col-span-3 rounded-2xl bg-white overflow-hidden">
       <div className="p-12">
-        <h3 className="text-2xl mb-2 font-semibold tracking-tighter">
+        <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Customize Your Links
-        </h3>
-        <p className="text-sm text-gray-500">
+        </h2>
+        <p className="text-gray-600">
           Add/edit/remove links below and then share all your profiles with
           world!
         </p>

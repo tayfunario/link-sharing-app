@@ -1,7 +1,13 @@
 import { LinkProps } from "../pages";
+import { UserProps } from "../pages";
 import { PreviewItem } from "./PreviewItem";
 
-export const Preview = ({ links }: { links: LinkProps[] }) => {
+interface PreviewProps {
+  links: LinkProps[];
+  user: UserProps;
+}
+
+export const Preview = ({ user, links }: PreviewProps) => {
   return (
     <div className="col-span-2 flex justify-center max-h-screen bg-white rounded-2xl">
       <div className="relative my-10">
@@ -36,10 +42,32 @@ export const Preview = ({ links }: { links: LinkProps[] }) => {
             style={{ fill: "white", stroke: "black" }}
           />
         </svg>
-        <ul id="preview-items-list" className="relative bottom-[57%] pr-1 mx-auto w-3/4 max-h-[300px] overflow-y-auto">
-          {links &&
-            links.map((link) => <PreviewItem key={link.id} link={link} />)}
-        </ul>
+        <div className="absolute w-full top-[10%]">
+          <img
+            src={user.imgPath}
+            className="w-28 h-28 mx-auto mb-5 object-cover rounded-full border border-gray-300"
+          />
+          {user.firstname ? (
+            <>
+              <p className="text-center ">
+                {user.firstname} {user.lastname}
+              </p>
+              <p className="text-center text-sm text-gray-600">{user.email}</p>
+            </>
+          ) : (
+            <>
+              <div className="w-44 h-4 mx-auto bg-gray-200 rounded-xl mb-2" />
+              <div className="w-32 h-3 mx-auto bg-gray-200 rounded-xl" />
+            </>
+          )}
+          <ul
+            id="preview-items-list"
+            className="pr-1 mx-auto mt-7 w-3/4 max-h-[260px] overflow-y-auto"
+          >
+            {links &&
+              links.map((link) => <PreviewItem key={link.id} link={link} />)}
+          </ul>
+        </div>
       </div>
     </div>
   );
