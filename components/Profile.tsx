@@ -1,10 +1,17 @@
-import { ChangeEvent, useState, useRef } from "react";
+import { ChangeEvent, useState, useRef, RefObject } from "react";
 import { BsImage } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { UserProps } from "../pages/index";
 
-export const Profile = () => {
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+interface ProfileProps {
+  user: UserProps;
+  overrideUser: (newUser: UserProps, ref: RefObject<HTMLDivElement>) => void;
+}
+
+export const Profile = ({ user, overrideUser }: ProfileProps) => {
+  const [stagedUser, setStagedUser] = useState<UserProps>(user);
   const fileRef = useRef<HTMLInputElement>(null);
+  const personalInfoRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -15,19 +22,31 @@ export const Profile = () => {
         file.type === "image/png" ||
         file.type === "image/jfif")
     ) {
-      setFileUrl(URL.createObjectURL(file));
+      setStagedUser({ ...stagedUser, imgPath: URL.createObjectURL(file) });
     } else {
       console.log("Invalid file type");
     }
   };
 
+  const updateFirstName = (newFirstName: string) => {
+    setStagedUser({ ...stagedUser, firstname: newFirstName });
+  };
+
+  const updateLastName = (newLastName: string) => {
+    setStagedUser({ ...stagedUser, lastname: newLastName });
+  };
+
+  const updateEmail = (newEmail: string) => {
+    setStagedUser({ ...stagedUser, email: newEmail });
+  };
+
   return (
-    <div className="col-span-3 rounded-2xl bg-white">
+    <div className="relative col-span-3 rounded-2xl bg-white">
       <div className="p-12">
-        <h3 className="text-2xl mb-2 font-semibold tracking-tighter">
+        <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Profile Details
-        </h3>
-        <p className="text-sm text-gray-500">
+        </h2>
+        <p className="text-gray-600">
           Add your details to create a personal touch to your profile.
         </p>
         <section
@@ -38,7 +57,7 @@ export const Profile = () => {
           <button
             id="profile-image-btn"
             onClick={() => fileRef.current.click()}
-            style={{ backgroundImage: `url(${fileUrl})` }}
+            style={{ backgroundImage: `url(${stagedUser.imgPath})` }}
             className="w-44 h-44 bg-cover bg-center rounded-lg"
           >
             <input
@@ -62,8 +81,9 @@ export const Profile = () => {
         </section>
 
         <section
+          ref={personalInfoRef}
           id="personal-info"
-          className="mt-10 p-4 bg-gray-100 rounded-md"
+          className="mt-10 p-4 bg-gray-100 rounded-md border-2 border-transparent"
         >
           <form>
             <div className="flex justify-between items-center">
@@ -74,6 +94,7 @@ export const Profile = () => {
                 type="text"
                 id="first-name"
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                onChange={(e) => updateFirstName(e.target.value)}
               />
             </div>
             <div className="flex justify-between items-center">
@@ -84,6 +105,7 @@ export const Profile = () => {
                 type="text"
                 id="last-name"
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                onChange={(e) => updateLastName(e.target.value)}
               />
             </div>
             <div className="flex justify-between items-center">
@@ -94,19 +116,23 @@ export const Profile = () => {
                 type="email"
                 id="email"
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                onChange={(e) => updateEmail(e.target.value)}
               />
             </div>
           </form>
         </section>
-
-        <div className="bg-gray-100 h-20 flex justify-end items-center px-10 rounded-b-3xl">
-          <motion.button
-            className="bg-green-600 text-white px-5 py-3 rounded-lg"
-            whileTap={{ scale: 0.95 }}
-          >
-            Save
-          </motion.button>
-        </div>
+      </div>
+      <div
+        id="dashboard-bottom-div"
+        className="absolute bottom-0 bg-gray-100 w-full h-20 flex justify-end items-center px-10 rounded-b-3xl"
+      >
+        <motion.button
+          className="bg-green-600 text-white px-5 py-3 rounded-lg"
+          onClick={() => overrideUser(stagedUser, personalInfoRef)}
+          whileTap={{ scale: 0.95 }}
+        >
+          Save
+        </motion.button>
       </div>
     </div>
   );

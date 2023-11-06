@@ -52,7 +52,7 @@ function Linkbox({
             className="handle w-6 h-6 text-gray-400"
             {...listeners}
           />
-          <span className="font-semibold">Link #{index + 1}</span>
+          <span className="font-semibold text-gray-600">Link #{index + 1}</span>
         </div>
 
         <span
@@ -65,7 +65,7 @@ function Linkbox({
         </span>
       </div>
 
-      <span className="block mt-3 text-sm capitalize text-gray-600">
+      <span className="block mt-3 text-sm capitalize text-gray-500">
         Platform
       </span>
 
@@ -262,7 +262,7 @@ const Input = ({ index, link: { url, platform }, updateUrl }: InputProps) => {
   return (
     <div className="mt-5">
       <form>
-        <label htmlFor="link" className="mt-3 text-sm capitalize text-gray-600">
+        <label htmlFor="link" className="mt-3 text-sm capitalize text-gray-500">
           Link
         </label>
         <div className="flex items-center gap-x-2 bg-gray-11 rounded-lg px-5 py-2 bg-white border-2 border-gray-300">
