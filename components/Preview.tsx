@@ -49,7 +49,7 @@ export const Preview = ({ user, links }: PreviewProps) => {
           />
           {user.firstname ? (
             <>
-              <p className="text-center ">
+              <p className="text-center font-bold">
                 {user.firstname} {user.lastname}
               </p>
               <p className="text-center text-sm text-gray-600">{user.email}</p>

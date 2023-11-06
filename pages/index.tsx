@@ -20,6 +20,7 @@ export interface UserProps {
 }
 
 export default function Home() {
+  const [isDashboard, setIsDashboard] = useState<boolean>(true);
   const [links, setLinks] = useState<LinkProps[]>([]);
   const [user, setUser] = useState<UserProps>({
     imgPath: blank.src,
@@ -27,6 +28,10 @@ export default function Home() {
     lastname: "",
     email: "",
   });
+
+  const handleDashboard = (val: boolean) => {
+    setIsDashboard(val);
+  };
 
   const overrideLinks = (newLinks: LinkProps[]) => {
     for (let i in newLinks) {
@@ -74,10 +79,13 @@ export default function Home() {
   return (
     <div id="container" className="min-h-screen box-border font-Poppins p-5">
       <div className="grid grid-cols-5 gap-5">
-        <Header />
+        <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
         <Preview user={user} links={links} />
-        <Dashboard links={links} overrideLinks={overrideLinks} />
-        <Profile user={user} overrideUser={overrideUser} />
+        {isDashboard ? (
+          <Dashboard links={links} overrideLinks={overrideLinks} />
+        ) : (
+          <Profile user={user} overrideUser={overrideUser} />
+        )}
       </div>
     </div>
   );
