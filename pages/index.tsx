@@ -1,4 +1,5 @@
 import { useState, useEffect, RefObject } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
@@ -81,11 +82,17 @@ export default function Home() {
       <div className="grid grid-cols-5 gap-5">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
         <Preview user={user} links={links} />
-        {isDashboard ? (
-          <Dashboard links={links} overrideLinks={overrideLinks} />
-        ) : (
-          <Profile user={user} overrideUser={overrideUser} />
-        )}
+        <AnimatePresence mode="wait">
+          {isDashboard ? (
+            <Dashboard
+              key="dashboard"
+              links={links}
+              overrideLinks={overrideLinks}
+            />
+          ) : (
+            <Profile key="profile" user={user} overrideUser={overrideUser} />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

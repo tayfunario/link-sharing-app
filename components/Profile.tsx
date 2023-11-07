@@ -41,7 +41,13 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
   };
 
   return (
-    <div className="relative col-span-3 rounded-2xl bg-white">
+    <motion.div
+      className="relative col-span-3 rounded-2xl bg-white"
+      initial={{ x: "101vh" }}
+      animate={{ x: 0 }}
+      exit={{ y: "100vh" }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="p-12">
         <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Profile Details
@@ -134,6 +140,6 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
           Save
         </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
