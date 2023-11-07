@@ -32,7 +32,7 @@ export const PreviewItem = ({ link }: { link: LinkProps }) => {
         target="_blank"
         className={`flex justify-between items-center p-3 mb-3 rounded-xl text-white ${bgColor} hover:${hoverBgColor}`}
       >
-        <div className="flex items-baseline gap-x-2 text-sm">
+        <div className="flex items-center gap-x-2 text-sm">
           <div className="text-xl">{link.icon}</div> {link.platform}
         </div>
         <HiArrowRight className={`${hoverBgColor} rounded-full w-5 h-5 p-[2px]`} />
