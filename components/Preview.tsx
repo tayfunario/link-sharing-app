@@ -21,18 +21,29 @@ const svgVariants = {
 
 const containerVariants = {
   hidden: { y: 100 },
-  visible: { y: 0, transition: { staggerChildren: 0.5 } },
+  visible: { y: 0 },
+};
+
+const staggerVariants = {
+  visible: {
+    transition: { staggerChildren: 0.5 },
+  },
 };
 
 const childVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5 } },
+  visible: { opacity: 1 },
 };
 
 export const Preview = ({ user, links }: PreviewProps) => {
   return (
     <div className="col-span-2 flex justify-center max-h-screen bg-white rounded-2xl">
-      <motion.div className="relative my-10">
+      <motion.div
+        className="relative my-10"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <svg
           className="mx-auto"
           width="304"
@@ -75,7 +86,7 @@ export const Preview = ({ user, links }: PreviewProps) => {
         </svg>
         <motion.div
           className="absolute w-full top-[10%]"
-          variants={containerVariants}
+          variants={staggerVariants}
           initial="hidden"
           animate="visible"
         >
@@ -84,15 +95,7 @@ export const Preview = ({ user, links }: PreviewProps) => {
             className="w-28 h-28 mx-auto mb-5 object-cover rounded-full border border-gray-300"
             variants={childVariants}
           />
-          <motion.div
-            className="w-44 h-4 mx-auto bg-gray-200 rounded-xl mb-2"
-            variants={childVariants}
-          />
-          <motion.div
-            className="w-32 h-3 mx-auto bg-gray-200 rounded-xl"
-            variants={childVariants}
-          />
-          {/* {user.firstname ? (
+          {user.firstname ? (
             <>
               <p className="text-center font-bold">
                 {user.firstname} {user.lastname}
@@ -103,16 +106,14 @@ export const Preview = ({ user, links }: PreviewProps) => {
             <>
               <motion.div
                 className="w-44 h-4 mx-auto bg-gray-200 rounded-xl mb-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                variants={childVariants}
               />
               <motion.div
                 className="w-32 h-3 mx-auto bg-gray-200 rounded-xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                variants={childVariants}
               />
             </>
-          )} */}
+          )}
           <ul
             id="preview-items-list"
             className="pr-1 mx-auto mt-7 w-3/4 max-h-[260px] overflow-y-auto"
