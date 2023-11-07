@@ -273,7 +273,6 @@ const Input = ({ index, link: { url, platform }, updateUrl }: InputProps) => {
             id="link"
             value={url}
             onChange={(e) => updateUrl(index, e.target.value)}
-            onSubmit={(e) => e.preventDefault()}
             className="grow bg-transparent text-sm focus:outline-none"
             placeholder={
               platform === "Choose a platform"
