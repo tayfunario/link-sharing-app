@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { LinkProps } from "../pages";
 import { UserProps } from "../pages";
 import { PreviewItem } from "./PreviewItem";

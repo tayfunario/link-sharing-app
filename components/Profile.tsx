@@ -45,7 +45,7 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
       className="relative col-span-3 rounded-2xl bg-white"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
-      exit={{ y: "100vh" }}
+      exit={{ scale: 0 }}
       transition={{ duration: 0.2 }}
     >
       <div className="p-12">

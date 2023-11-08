@@ -1,5 +1,6 @@
 import { HiArrowRight } from "react-icons/hi";
 import { LinkProps } from "../pages";
+import { motion } from "framer-motion";
 
 export const PreviewItem = ({ link }: { link: LinkProps }) => {
   let bgColor: string;
@@ -26,7 +27,11 @@ export const PreviewItem = ({ link }: { link: LinkProps }) => {
   }
 
   return (
-    <li>
+    <motion.li
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
+    >
       <a
         href={link.url}
         target="_blank"
@@ -35,8 +40,10 @@ export const PreviewItem = ({ link }: { link: LinkProps }) => {
         <div className="flex items-center gap-x-2 text-sm">
           <div className="text-xl">{link.icon}</div> {link.platform}
         </div>
-        <HiArrowRight className={`${hoverBgColor} rounded-full w-5 h-5 p-[2px]`} />
+        <HiArrowRight
+          className={`${hoverBgColor} rounded-full w-5 h-5 p-[2px]`}
+        />
       </a>
-    </li>
+    </motion.li>
   );
 };
