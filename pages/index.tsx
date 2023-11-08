@@ -1,9 +1,10 @@
-import { useState, useEffect, RefObject } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, RefObject } from "react";
+import { AnimatePresence, useCycle } from "framer-motion";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
 import { Profile } from "../components/Profile";
+import { Alert } from "../components/Alert";
 import blank from "../public/blank.webp";
 
 export interface LinkProps {
@@ -21,6 +22,7 @@ export interface UserProps {
 }
 
 export default function Home() {
+  const [y, cycleY] = useCycle("0vh", "-15vh");
   const [isDashboard, setIsDashboard] = useState<boolean>(true);
   const [links, setLinks] = useState<LinkProps[]>([]);
   const [user, setUser] = useState<UserProps>({
@@ -29,12 +31,6 @@ export default function Home() {
     lastname: "",
     email: "",
   });
-
-  const fuu = () => {
-    let myLinks = [...links];
-    myLinks.splice(0, 1);
-    setLinks(myLinks);
-  };
 
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
@@ -48,6 +44,7 @@ export default function Home() {
       const linkboxes = document.querySelectorAll(".linkbox");
       if (!newLinks[i].url.match(regexPattern)) {
         linkboxes[i].classList.add("border-red-500");
+        handleCycle();
         setTimeout(() => {
           linkboxes[i].classList.remove("border-red-500");
         }, 1000);
@@ -75,12 +72,20 @@ export default function Home() {
   };
 
   const drawAlert = (ref: RefObject<HTMLDivElement>) => {
+    handleCycle();
     ref.current.classList.remove("border-transparent");
     ref.current.classList.add("border-red-500");
     setTimeout(() => {
       ref.current.classList.add("border-transparent");
       ref.current.classList.remove("border-red-500");
     }, 1000);
+  };
+
+  const handleCycle = () => {
+    cycleY();
+    setTimeout(() => {
+      cycleY();
+    }, 2000);
   };
 
   return (
@@ -100,6 +105,7 @@ export default function Home() {
           )}
         </AnimatePresence>
       </div>
+      <Alert y={y} cycleY={cycleY} />
     </div>
   );
 }
