@@ -13,17 +13,6 @@ import {
   restrictToParentElement,
 } from "@dnd-kit/modifiers";
 
-const texts = [
-  "first",
-  "second",
-  "third",
-  "fourth",
-  "fifth",
-  "sixth",
-  "seventh",
-  "eighth",
-];
-
 interface DashboardProps {
   links: LinkProps[];
   overrideLinks: (newLinks: LinkProps[]) => void;
@@ -116,7 +105,7 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
           <div className="flex flex-col gap-y-10 px-16">
             {stagingLinks.map((link, index) => (
               <Linkbox
-                key={texts[index]}
+                key={index}
                 index={index}
                 link={link}
                 updateUrl={updateUrl}
