@@ -173,14 +173,14 @@ const ToggleMenu = ({
         {isOpen && (
           <motion.ul
             id="ul-menu"
-            className="mt-1 absolute rounded-lg bg-green-600 z-10"
+            className="mt-1 absolute rounded-lg bg-green-700 z-10"
             variants={ulVariants}
             initial="initial"
             animate="open"
             exit="closed"
           >
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={(e) => {
                 updatePlatform(index, "Youtube");
@@ -191,7 +191,7 @@ const ToggleMenu = ({
               <BsYoutube className="inline" /> Youtube
             </motion.li>
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Github");
@@ -202,7 +202,7 @@ const ToggleMenu = ({
               <AiFillGithub className="inline" /> GitHub
             </motion.li>
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Instagram");
@@ -213,7 +213,7 @@ const ToggleMenu = ({
               <BsInstagram className="inline" /> Instagram
             </motion.li>
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Facebook");
@@ -224,7 +224,7 @@ const ToggleMenu = ({
               <BsFacebook className="inline" /> Facebook
             </motion.li>
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "Twitter");
@@ -235,7 +235,7 @@ const ToggleMenu = ({
               <AiOutlineTwitter className="inline" /> Twitter
             </motion.li>
             <motion.li
-              className="h-10 text-white pt-2 pl-2 hover:bg-green-500"
+              className="h-10 text-white pt-2 pl-2 m-1 bg-green-600 hover:bg-green-500"
               variants={liVariants}
               onClick={() => {
                 updatePlatform(index, "LinkedIn");

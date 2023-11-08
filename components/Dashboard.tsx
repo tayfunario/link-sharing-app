@@ -69,7 +69,13 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
   };
 
   return (
-    <div className="relative pb-36 col-span-3 rounded-2xl bg-white overflow-hidden">
+    <motion.div
+      className="relative pb-36 col-span-3 rounded-2xl bg-white overflow-hidden"
+      initial={{ x: "101vh" }}
+      animate={{ x: 0 }}
+      exit={{ scale: 0 }}
+      transition={{ duration: 0.2 }}
+    >
       <div className="p-12">
         <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Customize Your Links
@@ -124,6 +130,6 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
           Save
         </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
