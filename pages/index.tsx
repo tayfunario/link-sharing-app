@@ -5,6 +5,7 @@ import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
 import { Profile } from "../components/Profile";
 import { Alert } from "../components/Alert";
+import { ClipboardAlert } from "../components/ClipboardAlert";
 import blank from "../public/blank.webp";
 
 export interface LinkProps {
@@ -23,6 +24,7 @@ export interface UserProps {
 
 export default function Home() {
   const [y, cycleY] = useCycle("100vh", "85vh");
+  const [clipboardY, cycleClipboardY] = useCycle("100vh", "85vh");
   const [alertType, setAlertType] = useState<{ status: string | null }>({
     status: null,
   });
@@ -36,7 +38,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    handleCycle();
+    handleCycle(false);
   }, [alertType]);
 
   const handleDashboard = (val: boolean) => {
@@ -58,8 +60,11 @@ export default function Home() {
         return;
       }
     }
-    setLinks(newLinks);
-    setAlertType({ status: "success" });
+
+    if (newLinks.length > 0) {
+      setLinks(newLinks);
+      setAlertType({ status: "success" });
+    }
   };
 
   const overrideUser = (newUser: UserProps, ref: RefObject<HTMLDivElement>) => {
@@ -90,18 +95,25 @@ export default function Home() {
     }, 1000);
   };
 
-  const handleCycle = () => {
-    cycleY();
-    setTimeout(() => {
+  const handleCycle = (isClipboard: boolean) => {
+    if (isClipboard) {
+      cycleClipboardY();
+      setTimeout(() => {
+        cycleClipboardY();
+      }, 2000);
+    } else {
       cycleY();
-    }, 2000);
+      setTimeout(() => {
+        cycleY();
+      }, 2000);
+    }
   };
 
   return (
     <div id="container" className="min-h-screen box-border font-Poppins p-5">
       <div className="grid grid-cols-5 gap-5">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
-        <Preview user={user} links={links} />
+        <Preview user={user} links={links} handleCycle={handleCycle} />
         <AnimatePresence mode="wait">
           {isDashboard ? (
             <Dashboard
@@ -113,6 +125,7 @@ export default function Home() {
             <Profile key="profile" user={user} overrideUser={overrideUser} />
           )}
         </AnimatePresence>
+        <ClipboardAlert y={clipboardY} />
         <Alert y={y} alertType={alertType} />
       </div>
     </div>

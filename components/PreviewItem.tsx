@@ -2,7 +2,12 @@ import { HiArrowRight } from "react-icons/hi";
 import { LinkProps } from "../pages";
 import { motion } from "framer-motion";
 
-export const PreviewItem = ({ link }: { link: LinkProps }) => {
+interface PreviewItemProps {
+  link: LinkProps;
+  handleCycle: (isClipboard: boolean) => void;
+}
+
+export const PreviewItem = ({ link, handleCycle }: PreviewItemProps) => {
   let bgColor: string;
   let hoverBgColor: string;
 
@@ -26,16 +31,20 @@ export const PreviewItem = ({ link }: { link: LinkProps }) => {
     hoverBgColor = "bg-gray-800";
   }
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(link.url);
+    handleCycle(true);
+  };
+
   return (
     <motion.li
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0, opacity: 0 }}
     >
-      <a
-        href={link.url}
-        target="_blank"
-        className={`flex justify-between items-center p-3 mb-3 rounded-xl text-white ${bgColor} hover:${hoverBgColor}`}
+      <div
+        onClick={copyToClipboard}
+        className={`flex justify-between items-center p-3 mb-3 rounded-xl cursor-pointer text-white ${bgColor} hover:${hoverBgColor}`}
       >
         <div className="flex items-center gap-x-2 text-sm">
           <div className="text-xl">{link.icon}</div> {link.platform}
@@ -43,7 +52,7 @@ export const PreviewItem = ({ link }: { link: LinkProps }) => {
         <HiArrowRight
           className={`${hoverBgColor} rounded-full w-5 h-5 p-[2px]`}
         />
-      </a>
+      </div>
     </motion.li>
   );
 };
