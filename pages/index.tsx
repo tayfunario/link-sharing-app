@@ -1,4 +1,4 @@
-import { useState, RefObject } from "react";
+import { useState, RefObject, useEffect } from "react";
 import { AnimatePresence, useCycle } from "framer-motion";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
@@ -22,7 +22,10 @@ export interface UserProps {
 }
 
 export default function Home() {
-  const [y, cycleY] = useCycle("0vh", "-15vh");
+  const [y, cycleY] = useCycle("100vh", "85vh");
+  const [alertType, setAlertType] = useState<{ status: string | null }>({
+    status: null,
+  });
   const [isDashboard, setIsDashboard] = useState<boolean>(true);
   const [links, setLinks] = useState<LinkProps[]>([]);
   const [user, setUser] = useState<UserProps>({
@@ -31,6 +34,10 @@ export default function Home() {
     lastname: "",
     email: "",
   });
+
+  useEffect(() => {
+    handleCycle();
+  }, [alertType]);
 
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
@@ -44,7 +51,7 @@ export default function Home() {
       const linkboxes = document.querySelectorAll(".linkbox");
       if (!newLinks[i].url.match(regexPattern)) {
         linkboxes[i].classList.add("border-red-500");
-        handleCycle();
+        setAlertType({ status: "warning" });
         setTimeout(() => {
           linkboxes[i].classList.remove("border-red-500");
         }, 1000);
@@ -52,6 +59,7 @@ export default function Home() {
       }
     }
     setLinks(newLinks);
+    setAlertType({ status: "success" });
   };
 
   const overrideUser = (newUser: UserProps, ref: RefObject<HTMLDivElement>) => {
@@ -69,10 +77,11 @@ export default function Home() {
       return;
     }
     setUser(newUser);
+    setAlertType({ status: "success" });
   };
 
   const drawAlert = (ref: RefObject<HTMLDivElement>) => {
-    handleCycle();
+    setAlertType({ status: "warning" });
     ref.current.classList.remove("border-transparent");
     ref.current.classList.add("border-red-500");
     setTimeout(() => {
@@ -104,8 +113,8 @@ export default function Home() {
             <Profile key="profile" user={user} overrideUser={overrideUser} />
           )}
         </AnimatePresence>
+        <Alert y={y} alertType={alertType} />
       </div>
-      <Alert y={y} cycleY={cycleY} />
     </div>
   );
 }

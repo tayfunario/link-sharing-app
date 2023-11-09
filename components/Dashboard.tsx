@@ -73,7 +73,7 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
       className="relative pb-36 col-span-3 rounded-2xl bg-white overflow-hidden"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
-      exit={{ scale: 0 }}
+      exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
       <div className="p-12">
