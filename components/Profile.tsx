@@ -23,8 +23,6 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
         file.type === "image/jfif")
     ) {
       setStagedUser({ ...stagedUser, imgPath: URL.createObjectURL(file) });
-    } else {
-      console.log("Invalid file type");
     }
   };
 
@@ -45,7 +43,7 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
       className="relative col-span-3 rounded-2xl bg-white"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
-      exit={{ scale: 0 }}
+      exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
       <div className="p-12">
@@ -99,7 +97,9 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
               <input
                 type="text"
                 id="first-name"
+                defaultValue={user.firstname}
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                maxLength={20}
                 onChange={(e) => updateFirstName(e.target.value)}
               />
             </div>
@@ -110,7 +110,9 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
               <input
                 type="text"
                 id="last-name"
+                defaultValue={user.lastname}
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                maxLength={20}
                 onChange={(e) => updateLastName(e.target.value)}
               />
             </div>
@@ -121,7 +123,9 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
               <input
                 type="email"
                 id="email"
+                defaultValue={user.email}
                 className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                maxLength={30}
                 onChange={(e) => updateEmail(e.target.value)}
               />
             </div>

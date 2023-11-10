@@ -19,7 +19,7 @@ export function Header({ isDashboard, handleDashboard }: HeaderProps) {
       </div>
       <button
         className={`flex items-center gap-x-2 text-green-900 ${
-          isDashboard ? "bg-green-300" : "bg-green-50"
+          isDashboard ? "bg-green-300" : "bg-green-50 hover:bg-green-100"
         } py-2 px-3 rounded-lg`}
         onClick={() => handleDashboard(true)}
       >
@@ -27,7 +27,7 @@ export function Header({ isDashboard, handleDashboard }: HeaderProps) {
       </button>
       <button
         className={`flex items-center gap-x-2 text-green-900 ${
-          isDashboard ? "bg-green-50" : "bg-green-300"
+          isDashboard ? "bg-green-50 hover:bg-green-100" : "bg-green-300"
         }  py-2 px-3 rounded-lg`}
         onClick={() => handleDashboard(false)}
       >

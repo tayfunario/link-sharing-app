@@ -6,6 +6,7 @@ import { PreviewItem } from "./PreviewItem";
 interface PreviewProps {
   links: LinkProps[];
   user: UserProps;
+  handleCycle: (isClipboard: boolean) => void;
 }
 
 const svgVariants = {
@@ -35,7 +36,7 @@ const childVariants = {
   visible: { opacity: 1 },
 };
 
-export const Preview = ({ user, links }: PreviewProps) => {
+export const Preview = ({ user, links, handleCycle }: PreviewProps) => {
   return (
     <div className="col-span-2 flex justify-center max-h-screen bg-white rounded-2xl">
       <motion.div
@@ -97,10 +98,12 @@ export const Preview = ({ user, links }: PreviewProps) => {
           />
           {user.firstname ? (
             <>
-              <p className="text-center font-bold">
+              <p className="text-center mx-auto font-bold max-w-[15rem] hyphens-auto">
                 {user.firstname} {user.lastname}
               </p>
-              <p className="text-center text-sm text-gray-600">{user.email}</p>
+              <p className="text-center mx-auto text-sm text-gray-600 max-w-[15rem] hyphens-auto">
+                {user.email}
+              </p>
             </>
           ) : (
             <>
@@ -119,7 +122,13 @@ export const Preview = ({ user, links }: PreviewProps) => {
             className="pr-1 mx-auto mt-7 w-3/4 max-h-[260px] overflow-y-auto"
           >
             {links &&
-              links.map((link) => <PreviewItem key={link.id} link={link} />)}
+              links.map((link) => (
+                <PreviewItem
+                  key={link.id}
+                  link={link}
+                  handleCycle={handleCycle}
+                />
+              ))}
           </ul>
         </motion.div>
       </motion.div>
