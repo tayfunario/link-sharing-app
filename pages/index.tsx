@@ -30,12 +30,6 @@ export default function Home() {
     email: "",
   });
 
-  const fuu = () => {
-    let myLinks = [...links];
-    myLinks.splice(0, 1);
-    setLinks(myLinks);
-  };
-
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
   };
