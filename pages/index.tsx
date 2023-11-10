@@ -110,7 +110,7 @@ export default function Home() {
   };
 
   return (
-    <div id="container" className="min-h-screen box-border font-Poppins p-5">
+    <div id="container" className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins p-5">
       <div className="grid grid-cols-5 gap-5">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
         <Preview user={user} links={links} handleCycle={handleCycle} />
