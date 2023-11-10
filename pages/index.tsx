@@ -37,6 +37,10 @@ export default function Home() {
     email: "",
   });
 
+  useEffect(() => {
+    handleCycle(false);
+  }, [alertType]);
+
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
   };
