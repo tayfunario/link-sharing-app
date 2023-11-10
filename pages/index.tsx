@@ -1,9 +1,11 @@
-import { useState, useEffect, RefObject } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, RefObject, useEffect } from "react";
+import { AnimatePresence, useCycle } from "framer-motion";
 import { Dashboard } from "../components/Dashboard";
 import { Preview } from "../components/Preview";
 import { Header } from "../components/Header";
 import { Profile } from "../components/Profile";
+import { Alert } from "../components/Alert";
+import { ClipboardAlert } from "../components/ClipboardAlert";
 import blank from "../public/blank.webp";
 
 export interface LinkProps {
@@ -21,6 +23,11 @@ export interface UserProps {
 }
 
 export default function Home() {
+  const [y, cycleY] = useCycle("100vh", "85vh");
+  const [clipboardY, cycleClipboardY] = useCycle("100vh", "85vh");
+  const [alertType, setAlertType] = useState<{ status: string | null }>({
+    status: null,
+  });
   const [isDashboard, setIsDashboard] = useState<boolean>(true);
   const [links, setLinks] = useState<LinkProps[]>([]);
   const [user, setUser] = useState<UserProps>({
@@ -30,11 +37,9 @@ export default function Home() {
     email: "",
   });
 
-  const fuu = () => {
-    let myLinks = [...links];
-    myLinks.splice(0, 1);
-    setLinks(myLinks);
-  };
+  useEffect(() => {
+    handleCycle(false);
+  }, [alertType]);
 
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
@@ -48,13 +53,18 @@ export default function Home() {
       const linkboxes = document.querySelectorAll(".linkbox");
       if (!newLinks[i].url.match(regexPattern)) {
         linkboxes[i].classList.add("border-red-500");
+        setAlertType({ status: "warning" });
         setTimeout(() => {
           linkboxes[i].classList.remove("border-red-500");
         }, 1000);
         return;
       }
     }
-    setLinks(newLinks);
+
+    if (newLinks.length > 0) {
+      setLinks(newLinks);
+      setAlertType({ status: "success" });
+    }
   };
 
   const overrideUser = (newUser: UserProps, ref: RefObject<HTMLDivElement>) => {
@@ -72,9 +82,11 @@ export default function Home() {
       return;
     }
     setUser(newUser);
+    setAlertType({ status: "success" });
   };
 
   const drawAlert = (ref: RefObject<HTMLDivElement>) => {
+    setAlertType({ status: "warning" });
     ref.current.classList.remove("border-transparent");
     ref.current.classList.add("border-red-500");
     setTimeout(() => {
@@ -83,11 +95,25 @@ export default function Home() {
     }, 1000);
   };
 
+  const handleCycle = (isClipboard: boolean) => {
+    if (isClipboard) {
+      cycleClipboardY();
+      setTimeout(() => {
+        cycleClipboardY();
+      }, 2000);
+    } else {
+      cycleY();
+      setTimeout(() => {
+        cycleY();
+      }, 2000);
+    }
+  };
+
   return (
-    <div id="container" className="min-h-screen box-border font-Poppins p-5">
+    <div id="container" className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins p-5">
       <div className="grid grid-cols-5 gap-5">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
-        <Preview user={user} links={links} />
+        <Preview user={user} links={links} handleCycle={handleCycle} />
         <AnimatePresence mode="wait">
           {isDashboard ? (
             <Dashboard
@@ -99,6 +125,8 @@ export default function Home() {
             <Profile key="profile" user={user} overrideUser={overrideUser} />
           )}
         </AnimatePresence>
+        <ClipboardAlert y={clipboardY} />
+        <Alert y={y} alertType={alertType} />
       </div>
     </div>
   );
