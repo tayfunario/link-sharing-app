@@ -61,10 +61,12 @@ export default function Home() {
       }
     }
 
-    if (newLinks.length > 0) {
-      setLinks(newLinks);
-      setAlertType({ status: "success" });
+    if (newLinks.length === 0 && links.length === 0) {
+      return;
     }
+
+    setLinks(newLinks);
+    setAlertType({ status: "success" });
   };
 
   const overrideUser = (newUser: UserProps, ref: RefObject<HTMLDivElement>) => {

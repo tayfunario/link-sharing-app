@@ -86,7 +86,7 @@ export const Preview = ({ user, links, handleCycle }: PreviewProps) => {
           />
         </svg>
         <motion.div
-          className="absolute w-full top-[10%]"
+          className="absolute w-full top-[8%]"
           variants={staggerVariants}
           initial="hidden"
           animate="visible"
@@ -119,7 +119,7 @@ export const Preview = ({ user, links, handleCycle }: PreviewProps) => {
           )}
           <ul
             id="preview-items-list"
-            className="pr-1 mx-auto mt-7 w-3/4 max-h-[260px] overflow-y-auto"
+            className="pr-1 mx-auto mt-7 w-3/4 max-h-[240px] overflow-y-auto"
           >
             {links &&
               links.map((link) => (
