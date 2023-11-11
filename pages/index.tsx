@@ -114,9 +114,9 @@ export default function Home() {
   return (
     <div
       id="container"
-      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins p-5"
+      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins lg:p-5"
     >
-      <div className="grid grid-cols-5 gap-5">
+      <div className="md:grid grid-cols-5 lg:gap-x-5 gap-x-1">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
         <Preview user={user} links={links} handleCycle={handleCycle} />
         <AnimatePresence mode="wait">

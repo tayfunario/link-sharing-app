@@ -70,13 +70,14 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
 
   return (
     <motion.div
-      className="relative pb-36 col-span-3 rounded-2xl bg-white"
+      id="dashboard-container"
+      className="relative col-span-3 pb-44 bg-white rounded-2xl"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
       exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="p-12">
+      <div className="lg:p-12 py-12 px-7">
         <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Customize Your Links
         </h2>
@@ -102,7 +103,7 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
           items={stagingLinks}
           strategy={verticalListSortingStrategy}
         >
-          <div className="flex flex-col gap-y-10 px-16">
+          <div className="flex flex-col gap-y-10 lg:px-16 px-7">
             {stagingLinks.map((link, index) => (
               <Linkbox
                 key={index}

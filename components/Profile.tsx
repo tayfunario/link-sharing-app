@@ -40,13 +40,14 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
 
   return (
     <motion.div
+      id="profile-container"
       className="relative col-span-3 rounded-2xl bg-white"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
       exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="p-12">
+      <div className="lg:p-12 py-12 px-7">
         <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Profile Details
         </h2>
@@ -55,14 +56,14 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
         </p>
         <section
           id="image-section"
-          className="grid grid-cols-3 items-center mt-10 p-4 bg-gray-100 rounded-md"
+          className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 items-center mt-10 p-4 bg-gray-100 rounded-md"
         >
-          <p className="text-gray-600">Profile picture</p>
+          <p className="sm:text-start text-center text-gray-600">Profile picture</p>
           <button
+            className="w-44 h-44 mx-auto bg-cover bg-center rounded-lg"
             id="profile-image-btn"
             onClick={() => fileRef.current.click()}
             style={{ backgroundImage: `url(${stagedUser.imgPath})` }}
-            className="w-44 h-44 bg-cover bg-center rounded-lg"
           >
             <input
               ref={fileRef}
@@ -78,7 +79,7 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
               <span className="text-sm">Change Image</span>
             </div>
           </button>
-          <div className="text-xs text-gray-500">
+          <div className="xl:col-span-1 sm:col-span-2 col-span-1 xl:mt-0 mt-5 text-center text-xs text-gray-500">
             <p>Image must be below 1024x1024px.</p>
             <p>Use .PNG, .JPG and .JPEG formats</p>
           </div>
@@ -87,9 +88,9 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
         <section
           ref={personalInfoRef}
           id="personal-info"
-          className="mt-10 p-4 bg-gray-100 rounded-md border-2 border-transparent"
+          className="my-10 p-4 bg-gray-100 rounded-md border-2 border-transparent"
         >
-          <form>
+          <form className="flex flex-col gap-y-3">
             <div className="flex justify-between items-center">
               <label htmlFor="first-name" className="text-gray-600">
                 First name*
@@ -124,7 +125,7 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
                 type="email"
                 id="email"
                 defaultValue={user.email}
-                className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                className="w-64 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
                 maxLength={30}
                 onChange={(e) => updateEmail(e.target.value)}
               />
