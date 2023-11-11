@@ -91,41 +91,41 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
           className="my-10 p-4 bg-gray-100 rounded-md border-2 border-transparent"
         >
           <form className="flex flex-col gap-y-3">
-            <div className="flex justify-between items-center">
-              <label htmlFor="first-name" className="text-gray-600">
+            <div className="md:flex justify-between items-center">
+              <label htmlFor="first-name" className="block text-gray-600">
                 First name*
               </label>
               <input
                 type="text"
                 id="first-name"
                 defaultValue={user.firstname}
-                className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                className="md:w-80 w-full p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
                 maxLength={20}
                 onChange={(e) => updateFirstName(e.target.value)}
               />
             </div>
-            <div className="flex justify-between items-center">
-              <label htmlFor="last-name" className="text-gray-600">
+            <div className="md:flex justify-between items-center">
+              <label htmlFor="last-name" className="block text-gray-600">
                 Last name*
               </label>
               <input
                 type="text"
                 id="last-name"
                 defaultValue={user.lastname}
-                className="w-80 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                className="md:w-80 w-full p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
                 maxLength={20}
                 onChange={(e) => updateLastName(e.target.value)}
               />
             </div>
-            <div className="flex justify-between items-center">
-              <label htmlFor="email" className="text-gray-600">
-                Email*
+            <div className="md:flex justify-between items-center">
+              <label htmlFor="email" className="block text-gray-600">
+                Your Email*
               </label>
               <input
                 type="email"
                 id="email"
                 defaultValue={user.email}
-                className="w-64 p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
+                className="md:w-80 w-full p-2 mt-1 rounded-md border-2 focus:border-green-500 outline-none"
                 maxLength={30}
                 onChange={(e) => updateEmail(e.target.value)}
               />

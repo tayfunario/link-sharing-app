@@ -23,8 +23,8 @@ export interface UserProps {
 }
 
 export default function Home() {
-  const [y, cycleY] = useCycle("100vh", "85vh");
-  const [clipboardY, cycleClipboardY] = useCycle("100vh", "85vh");
+  const [bottom, cycleBottom] = useCycle(-100, 40);
+  const [clipboardBottom, cycleClipboardBottom] = useCycle(-100, 30);
   const [alertType, setAlertType] = useState<{ status: string | null }>({
     status: null,
   });
@@ -99,14 +99,14 @@ export default function Home() {
 
   const handleCycle = (isClipboard: boolean) => {
     if (isClipboard) {
-      cycleClipboardY();
+      cycleClipboardBottom();
       setTimeout(() => {
-        cycleClipboardY();
+        cycleClipboardBottom();
       }, 2000);
     } else {
-      cycleY();
+      cycleBottom();
       setTimeout(() => {
-        cycleY();
+        cycleBottom();
       }, 2000);
     }
   };
@@ -114,7 +114,7 @@ export default function Home() {
   return (
     <div
       id="container"
-      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins lg:p-5"
+      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins lg:p-5 pb-5"
     >
       <div className="md:grid grid-cols-5 lg:gap-x-5 gap-x-1">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
@@ -130,8 +130,8 @@ export default function Home() {
             <Profile key="profile" user={user} overrideUser={overrideUser} />
           )}
         </AnimatePresence>
-        <ClipboardAlert y={clipboardY} />
-        <Alert y={y} alertType={alertType} />
+        <ClipboardAlert bottom={clipboardBottom} />
+        <Alert bottom={bottom} alertType={alertType} />
       </div>
     </div>
   );
