@@ -23,8 +23,12 @@ export interface UserProps {
 }
 
 export default function Home() {
+  const [isInitial, setIsInitial] = useState<boolean>(true);
   const [bottom, cycleBottom] = useCycle(-100, 40);
+  const [bottomLock, setBottomLock] = useState<boolean>(false);
   const [clipboardBottom, cycleClipboardBottom] = useCycle(-100, 30);
+  const [clipboardBottomLock, setClipboardBottomLock] =
+    useState<boolean>(false);
   const [alertType, setAlertType] = useState<{ status: string | null }>({
     status: null,
   });
@@ -40,6 +44,10 @@ export default function Home() {
   useEffect(() => {
     handleCycle(false);
   }, [alertType]);
+
+  const handleInitial = () => {
+    setIsInitial(false);
+  };
 
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
@@ -98,15 +106,19 @@ export default function Home() {
   };
 
   const handleCycle = (isClipboard: boolean) => {
-    if (isClipboard) {
+    if (isClipboard && !clipboardBottomLock) {
       cycleClipboardBottom();
+      setClipboardBottomLock(true);
       setTimeout(() => {
         cycleClipboardBottom();
+        setClipboardBottomLock(false);
       }, 2000);
-    } else {
+    } else if (!isClipboard && !bottomLock) {
       cycleBottom();
+      setBottomLock(true);
       setTimeout(() => {
         cycleBottom();
+        setBottomLock(false);
       }, 2000);
     }
   };
@@ -125,6 +137,8 @@ export default function Home() {
               key="dashboard"
               links={links}
               overrideLinks={overrideLinks}
+              isInitial={isInitial}
+              handleInitial={handleInitial}
             />
           ) : (
             <Profile key="profile" user={user} overrideUser={overrideUser} />
