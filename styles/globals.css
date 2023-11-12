@@ -47,3 +47,17 @@
 #email:focus {
   box-shadow: 0px 0px 10px 4px hsl(126, 100%, 87%);
 }
+
+@media screen and (max-width: 768px) {
+  #preview-container {
+    @apply mx-auto mb-4;
+  }
+
+  #dashboard-container {
+    @apply mx-auto max-w-xl;
+  }
+
+  #profile-container {
+    @apply mx-auto max-w-xl;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Linkbox from "./Linkbox";
+import { Illustration } from "./Illustration";
 import { LinkProps } from "../pages";
 import { motion } from "framer-motion";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -16,9 +17,16 @@ import {
 interface DashboardProps {
   links: LinkProps[];
   overrideLinks: (newLinks: LinkProps[]) => void;
+  isInitial: boolean;
+  handleInitial: () => void;
 }
 
-export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
+export const Dashboard = ({
+  links,
+  overrideLinks,
+  isInitial,
+  handleInitial,
+}: DashboardProps) => {
   const [stagingLinks, setStagingLinks] = useState<LinkProps[]>(links);
 
   const handleDragEnd = (event: any) => {
@@ -33,6 +41,7 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
   };
 
   const addLink = () => {
+    handleInitial();
     setStagingLinks([
       ...stagingLinks,
       {
@@ -70,13 +79,14 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
 
   return (
     <motion.div
-      className="relative pb-36 col-span-3 rounded-2xl bg-white"
+      id="dashboard-container"
+      className="relative col-span-3 pb-44 bg-white rounded-2xl"
       initial={{ x: "101vh" }}
       animate={{ x: 0 }}
       exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <div className="p-12">
+      <div className="lg:p-12 py-12 px-7">
         <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
           Customize Your Links
         </h2>
@@ -93,43 +103,49 @@ export const Dashboard = ({ links, overrideLinks }: DashboardProps) => {
         </motion.button>
       </div>
 
-      <DndContext
-        onDragEnd={handleDragEnd}
-        collisionDetection={closestCenter}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-      >
-        <SortableContext
-          items={stagingLinks}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="flex flex-col gap-y-10 px-16">
-            {stagingLinks.map((link, index) => (
-              <Linkbox
-                key={index}
-                index={index}
-                link={link}
-                updateUrl={updateUrl}
-                updatePlatform={updatePlatform}
-                updateIcon={updateIcon}
-                removeLink={removeLink}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      {isInitial ? (
+        <Illustration />
+      ) : (
+        <>
+          <DndContext
+            onDragEnd={handleDragEnd}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+          >
+            <SortableContext
+              items={stagingLinks}
+              strategy={verticalListSortingStrategy}
+            >
+              <div className="flex flex-col gap-y-10 lg:px-16 px-7">
+                {stagingLinks.map((link, index) => (
+                  <Linkbox
+                    key={index}
+                    index={index}
+                    link={link}
+                    updateUrl={updateUrl}
+                    updatePlatform={updatePlatform}
+                    updateIcon={updateIcon}
+                    removeLink={removeLink}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
 
-      <div
-        id="dashboard-bottom-div"
-        className="absolute bottom-0 bg-gray-100 w-full h-20 flex justify-end items-center px-10 rounded-b-3xl"
-      >
-        <motion.button
-          className="bg-green-600 text-white px-5 py-3 rounded-lg"
-          onClick={() => overrideLinks(stagingLinks)}
-          whileTap={{ scale: 0.95 }}
-        >
-          Save
-        </motion.button>
-      </div>
+          <div
+            id="dashboard-bottom-div"
+            className="absolute bottom-0 bg-gray-100 w-full h-20 flex justify-end items-center px-10 rounded-b-3xl"
+          >
+            <motion.button
+              className="bg-green-600 text-white px-5 py-3 rounded-lg"
+              onClick={() => overrideLinks(stagingLinks)}
+              whileTap={{ scale: 0.95 }}
+            >
+              Save
+            </motion.button>
+          </div>
+        </>
+      )}
     </motion.div>
   );
 };

@@ -23,8 +23,12 @@ export interface UserProps {
 }
 
 export default function Home() {
-  const [y, cycleY] = useCycle("100vh", "85vh");
-  const [clipboardY, cycleClipboardY] = useCycle("100vh", "85vh");
+  const [isInitial, setIsInitial] = useState<boolean>(true);
+  const [bottom, cycleBottom] = useCycle(-100, 40);
+  const [bottomLock, setBottomLock] = useState<boolean>(false);
+  const [clipboardBottom, cycleClipboardBottom] = useCycle(-100, 30);
+  const [clipboardBottomLock, setClipboardBottomLock] =
+    useState<boolean>(false);
   const [alertType, setAlertType] = useState<{ status: string | null }>({
     status: null,
   });
@@ -40,6 +44,10 @@ export default function Home() {
   useEffect(() => {
     handleCycle(false);
   }, [alertType]);
+
+  const handleInitial = () => {
+    setIsInitial(false);
+  };
 
   const handleDashboard = (val: boolean) => {
     setIsDashboard(val);
@@ -98,15 +106,19 @@ export default function Home() {
   };
 
   const handleCycle = (isClipboard: boolean) => {
-    if (isClipboard) {
-      cycleClipboardY();
+    if (isClipboard && !clipboardBottomLock) {
+      cycleClipboardBottom();
+      setClipboardBottomLock(true);
       setTimeout(() => {
-        cycleClipboardY();
+        cycleClipboardBottom();
+        setClipboardBottomLock(false);
       }, 2000);
-    } else {
-      cycleY();
+    } else if (!isClipboard && !bottomLock) {
+      cycleBottom();
+      setBottomLock(true);
       setTimeout(() => {
-        cycleY();
+        cycleBottom();
+        setBottomLock(false);
       }, 2000);
     }
   };
@@ -114,9 +126,9 @@ export default function Home() {
   return (
     <div
       id="container"
-      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins p-5"
+      className="min-h-screen max-w-[100vw] overflow-hidden box-border font-Poppins lg:p-5 pb-5"
     >
-      <div className="grid grid-cols-5 gap-5">
+      <div className="md:grid grid-cols-5 lg:gap-x-5 gap-x-1">
         <Header isDashboard={isDashboard} handleDashboard={handleDashboard} />
         <Preview user={user} links={links} handleCycle={handleCycle} />
         <AnimatePresence mode="wait">
@@ -125,13 +137,15 @@ export default function Home() {
               key="dashboard"
               links={links}
               overrideLinks={overrideLinks}
+              isInitial={isInitial}
+              handleInitial={handleInitial}
             />
           ) : (
             <Profile key="profile" user={user} overrideUser={overrideUser} />
           )}
         </AnimatePresence>
-        <ClipboardAlert y={clipboardY} />
-        <Alert y={y} alertType={alertType} />
+        <ClipboardAlert bottom={clipboardBottom} />
+        <Alert bottom={bottom} alertType={alertType} />
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ const childVariants = {
 
 export const Preview = ({ user, links, handleCycle }: PreviewProps) => {
   return (
-    <div className="col-span-2 flex justify-center max-h-screen bg-white rounded-2xl">
+    <div id="preview-container" className="col-span-2 flex justify-center max-w-xl max-h-screen bg-white rounded-2xl">
       <motion.div
         className="relative my-10"
         variants={containerVariants}
