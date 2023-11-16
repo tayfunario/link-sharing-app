@@ -48,7 +48,8 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
       transition={{ duration: 0.2 }}
     >
       <div className="lg:p-12 py-12 px-7">
-        <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
+        <h2 className="text-2xl mb-2 font-semibold tracking-tighter"
+        data-cy="profile-title">
           Profile Details
         </h2>
         <p className="text-gray-600">
@@ -139,6 +140,7 @@ export const Profile = ({ user, overrideUser }: ProfileProps) => {
       >
         <motion.button
           className="bg-green-600 text-white px-5 py-3 rounded-lg"
+          data-cy="save-btn"
           onClick={() => overrideUser(stagedUser, personalInfoRef)}
           whileTap={{ scale: 0.95 }}
         >

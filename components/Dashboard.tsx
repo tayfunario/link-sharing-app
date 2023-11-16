@@ -87,7 +87,10 @@ export const Dashboard = ({
       transition={{ duration: 0.2 }}
     >
       <div className="lg:p-12 py-12 px-7">
-        <h2 className="text-2xl mb-2 font-semibold tracking-tighter">
+        <h2
+          className="text-2xl mb-2 font-semibold tracking-tighter"
+          data-cy="dashboard-title"
+        >
           Customize Your Links
         </h2>
         <p className="text-gray-600">
@@ -96,6 +99,7 @@ export const Dashboard = ({
         </p>
         <motion.button
           className="text-green-700 font-normal w-full py-2 mt-5 rounded-lg border-2 border-green-500"
+          data-cy="add-link-button"
           onClick={addLink}
           whileTap={{ scale: 0.95 }}
         >
@@ -116,7 +120,7 @@ export const Dashboard = ({
               items={stagingLinks}
               strategy={verticalListSortingStrategy}
             >
-              <div className="flex flex-col gap-y-10 lg:px-16 px-7">
+              <div className="flex flex-col gap-y-10 lg:px-16 px-7" data-cy="linkbox-container">
                 {stagingLinks.map((link, index) => (
                   <Linkbox
                     key={index}
@@ -138,6 +142,7 @@ export const Dashboard = ({
           >
             <motion.button
               className="bg-green-600 text-white px-5 py-3 rounded-lg"
+              data-cy="save-button"
               onClick={() => overrideLinks(stagingLinks)}
               whileTap={{ scale: 0.95 }}
             >

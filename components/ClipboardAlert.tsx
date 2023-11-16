@@ -9,6 +9,7 @@ export const ClipboardAlert = ({ bottom }: ClipboardAlertProps) => {
   return (
     <motion.div
       className="fixed left-5 flex items-center gap-x-2 p-4 bg-blue-600 text-gray-100 text-sm rounded-lg shadow-lg shadow-gray-600"
+      data-cy="clipboard-alert"
       initial={{ bottom: -100 }}
       animate={{ bottom }}
     >

@@ -45,6 +45,7 @@ export const PreviewItem = ({ link, handleCycle }: PreviewItemProps) => {
       <div
         onClick={copyToClipboard}
         className={`flex justify-between items-center px-3 py-2 mb-2 rounded-xl cursor-pointer text-white ${bgColor} hover:${hoverBgColor}`}
+        data-cy="preview-item"
       >
         <div className="flex items-center gap-x-2 text-sm">
           <div className="text-xl">{link.icon}</div> {link.platform}

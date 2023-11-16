@@ -20,6 +20,7 @@ export function Header({ isDashboard, handleDashboard }: HeaderProps) {
         </span>
       </div>
       <button
+        data-cy="dashboard-link"
         className={`flex items-center gap-x-2 text-green-900 ${
           isDashboard ? "bg-green-300" : "bg-green-50 hover:bg-green-100"
         } py-2 px-3 rounded-lg`}
@@ -28,12 +29,14 @@ export function Header({ isDashboard, handleDashboard }: HeaderProps) {
         <PiLinkBold /> <span className="sm:block hidden">Links</span>
       </button>
       <button
+        data-cy="profile-link"
         className={`flex items-center gap-x-2 text-green-900 ${
           isDashboard ? "bg-green-50 hover:bg-green-100" : "bg-green-300"
         }  py-2 px-3 rounded-lg`}
         onClick={() => handleDashboard(false)}
       >
-        <PiUserCircleBold /> <span className="sm:block hidden">Profile Details</span>
+        <PiUserCircleBold />{" "}
+        <span className="sm:block hidden">Profile Details</span>
       </button>
     </motion.header>
   );

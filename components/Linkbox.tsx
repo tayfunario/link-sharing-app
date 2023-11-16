@@ -42,6 +42,7 @@ function Linkbox({
   return (
     <div
       className="linkbox bg-gray-100 p-5 border-2 rounded-md shadow-gray-500"
+      data-cy="linkbox-container"
       ref={setNodeRef}
       style={style}
       {...attributes}
@@ -57,6 +58,7 @@ function Linkbox({
 
         <span
           className="underline"
+          data-cy="remove-link-button"
           onClick={() => {
             removeLink(index);
           }}
